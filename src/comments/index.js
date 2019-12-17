@@ -53,7 +53,7 @@ router.delete("/:commentID", async(req,res) => {
     const filteredComments = comments.filter(comment => comment.commentID !== req.params.commentID)
     if(filteredComments.length === comments.length) return res.status(404).send("Not found")
     else {
-        await writeBooks(filteredComments)
+        await writeComments(filteredComments)
         return res.status(200).send("Deleted")
     }
 })
