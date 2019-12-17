@@ -8,7 +8,7 @@ const { check, validationResult, sanitizeBody } = require("express-validator")
 const commentsPath = path.join(__dirname, "../../data/comments.json")
 
 const readComments = async() => {
-    const buffer = await fs.readFile(booksPath)
+    const buffer = await fs.readFile(commentsPath)
     return JSON.parse(buffer.toString())
 }
 
@@ -26,11 +26,6 @@ router.get("/:commentID", async(req, res) => {
     if(comment) return res.status(200).send(comment)
     else return res.status(404).send("Non found")
 })
-/*    - CommentID //Server Generated
-    - BookID //ASIN
-    - UserName
-    - Text
-    - Date //Server Generate*/
 
 router.post("/:asin",[
     check("bookID")
