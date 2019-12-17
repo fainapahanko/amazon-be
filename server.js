@@ -23,6 +23,10 @@ var corsOptions = {
 server.use("/books", cors(corsOptions), booksRoute)
 server.use("/comments", cors(corsOptions), commentsRoute)
 
+server.get("/test", () => {
+    console.log("toyoy")
+})
+
 
 server.listen(port,() => {
     console.log(`We are running on localhost ${port}`)
