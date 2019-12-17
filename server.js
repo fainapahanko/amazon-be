@@ -9,7 +9,7 @@ const port = process.env.PORT || 4000
 
 server.use(express.json())
 
-var whitelist = ['http://localhost:3000', 'http://example2.com']
+var whitelist = ['http://localhost:3000']
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
@@ -23,7 +23,7 @@ var corsOptions = {
 server.use("/books", cors(corsOptions), booksRoute)
 server.use("/comments", cors(corsOptions), commentsRoute)
 
-server.get("/test", () => {
+server.get("/", () => {
     res.send("toyoy")
 })
 

@@ -28,13 +28,10 @@ router.get("/:commentID", async(req, res) => {
 })
 
 router.post("/:asin",[
-    check("bookID")
-        .exists().withMessage("Asin is required"),
     check("text")
         .isLength({min:4,max:1000}).withMessage("Text is required"),
     check("userName")
-        .isLength({min:4,max:50}),
-    sanitizeBody("asin").toInt()
+        .isLength({min:4,max:50})
     ],
     async(req,res) => {
         const comments = await readComments()
