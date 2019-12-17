@@ -5,7 +5,7 @@ const commentsRoute = require("./src/comments/index")
 const cors = require("cors")
 require('dotenv').config()
 
-const port = process.env.PORT || 4000
+//const port = process.env.PORT || 4000
 
 server.use(express.json())
 
@@ -28,6 +28,6 @@ server.get("/", () => {
 })
 
 
-server.listen(port,() => {
-    console.log("We are running on localhost" + port)
+server.listen(4000,() => {
+    console.log("We are running on localhost " + 4000)
 })
