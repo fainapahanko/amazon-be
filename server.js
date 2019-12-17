@@ -1,6 +1,7 @@
 const express = require("express")
 const server = express()
 const booksRoute = require("./src/books/index")
+const commentsRoute = require("./src/comments/index")
 const cors = require("cors")
 require('dotenv').config()
 
@@ -20,6 +21,7 @@ var corsOptions = {
 }
 
 server.use("/books", cors(corsOptions), booksRoute)
+server.use("/comments", cors(corsOptions), commentsRoute)
 
 
 server.listen(port,() => {
