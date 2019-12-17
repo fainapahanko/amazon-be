@@ -20,9 +20,9 @@ router.get("/", async(req,res) => {
     return res.send(await readComments())
 })
 
-router.get("/:commentID", async(req, res) => {
+router.get("/:bookID", async(req, res) => {
     const comments = await readComments()
-    const comment = comments.find(comment => comment.commentID === req.params.commentID)
+    const comment = comments.find(comment => comment.bookID === req.params.bookID)
     if(comment) return res.status(200).send(comment)
     else return res.status(404).send("Non found")
 })
