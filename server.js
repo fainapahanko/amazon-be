@@ -14,11 +14,6 @@ server.use(express.static('./public/images'))
 server.use("/books", booksRoute)
 server.use("/comments", commentsRoute)
 
-server.get("/", () => {
-    res.send("toyoy")
-})
-
-
 server.listen(port,() => {
     console.log("We are running on localhost " + port)
 })

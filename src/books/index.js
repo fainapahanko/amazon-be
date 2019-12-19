@@ -26,9 +26,7 @@ router.get("/:asin", async(req, res) => {
     if(book) return res.status(200).send(book)
     else return res.status(404).send("Non found")
 })
-
-const upload = multer({})
-router.post("/",[
+/*[
     check("asin")
         .exists().withMessage("Asin is required"),
     check("title")
@@ -38,7 +36,9 @@ router.post("/",[
     check("category")
         .exists().withMessage("Category is required"),
     sanitizeBody("price").toFloat()
-    ], upload.single("img"),
+    ]*/
+const upload = multer({})
+router.post("/", upload.single("img"),
     async(req,res) => {
         const books = await readBooks()
         const obj = {
@@ -48,8 +48,8 @@ router.post("/",[
         const imgDest = path.join(__dirname, "../../public/img/" + obj.asin + ".jpg")
         await fs.writeFile(imgDest, req.file.buffer)
         obj.img = imgDest
-        const errors = validationResult(req)
-        if(!errors.isEmpty()) return res.status(400).send({errors: errors.array()})
+        // const err = validationResult(req)
+        // if(!err.isEmpty()) return res.status(400).send({errors: err.array()})
         books.push(obj)
         await writeBooks(books)
         return res.status(200).send("OK")
