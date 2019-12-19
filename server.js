@@ -7,7 +7,7 @@ require('dotenv').config()
 
 const port = process.env.PORT || 4400
 
-server.use(express.json())
+server.use(express.json({limit: '5000mb'}))
 server.use(cors())
 
 server.use(express.static('./public/images'))
