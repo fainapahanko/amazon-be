@@ -2,8 +2,9 @@ const express = require("express")
 const fs = require("fs-extra")
 const router = express.Router()
 const path = require("path")
+const uuid = require("uuid/v1")
 const { check, validationResult, sanitizeBody } = require("express-validator")
-
+const multer = require("multer")
 const booksPath = path.join(__dirname, "../../data/books.json")
 
 const readBooks = async() => {
@@ -26,6 +27,7 @@ router.get("/:asin", async(req, res) => {
     else return res.status(404).send("Non found")
 })
 
+const upload = multer({})
 router.post("/",[
     check("asin")
         .exists().withMessage("Asin is required"),
@@ -36,10 +38,16 @@ router.post("/",[
     check("category")
         .exists().withMessage("Category is required"),
     sanitizeBody("price").toFloat()
-    ],
+    ], upload.single("img"),
     async(req,res) => {
         const books = await readBooks()
-        const obj = req.body
+        const obj = {
+            ...req.body,
+            updatedAt: new Date()
+        }
+        const imgDest = path.join(__dirname, "../../public/img/" + obj.asin + ".jpg")
+        await fs.writeFile(imgDest, req.file.buffer)
+        obj.img = imgDest
         const errors = validationResult(req)
         if(!errors.isEmpty()) return res.status(400).send({errors: errors.array()})
         books.push(obj)

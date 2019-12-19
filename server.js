@@ -5,11 +5,12 @@ const commentsRoute = require("./src/comments/index")
 const cors = require("cors")
 require('dotenv').config()
 
-const port = process.env.PORT || 4000
+const port = process.env.PORT || 4400
 
 server.use(express.json())
 server.use(cors())
 
+server.use(express.static('./public/images'))
 server.use("/books", booksRoute)
 server.use("/comments", commentsRoute)
 
