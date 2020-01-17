@@ -1,24 +1,27 @@
 const express = require("express")
 const server = express()
-const booksRoute = require("./src/books/index")
-const commentsRoute = require("./src/comments/index")
+const productsRouter = require("./src/products/index")
+const reviewsRoute = require("./src/comments/index")
 const cors = require("cors")
+const bodyParser = require('body-parser');
+//const path = require("path")
 require('dotenv').config()
 
 const port = process.env.PORT || 4400
 
-server.use(express.json({limit: '5000mb'}))
+//server.use(express.json({limit: '5000mb'}))
 server.use(cors())
-server.use((req,res,next) => {
-    res.header("Access-Control-Allow-Origin", '*');
-    res.header("Access-Control-Allow-Credentials", true);
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
-})
-server.use(express.static('./public/images'))
-server.use("/books", booksRoute)
-server.use("/comments", commentsRoute)
+server.use(bodyParser.urlencoded({extended: false}));
+server.use(bodyParser.json());
+server.use("/img", express.static("img"))
+server.use("/products", productsRouter)
+server.use("/reviews", reviewsRoute)
+
+server.use((err, req, res, next) => {
+    if (!res.headersSent) {
+      res.status(err.httpStatusCode || 500).send(err);
+    }
+});
 
 server.listen(port,() => {
     console.log("We are running on localhost " + port)
